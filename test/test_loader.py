@@ -41,3 +41,30 @@ class TestLoader(TestCase):
         data = loader.load()
         for item in data:
             print(item)
+
+    def test_word_loader(self):
+        from rs_loaders import UnstructuredWordDocumentLoader
+        # TODO: Support header
+        loader = UnstructuredWordDocumentLoader(
+            "../doc/附件10 整体服务方案.doc",
+            mode="paged",  # elements/single/paged
+            strategy="fast"
+        )
+
+        data = loader.load()
+        print(len(data))
+        for item in data: print(item)
+
+    def test_pdf_loader(self):
+        from rs_loaders import UnstructuredPDFLoader
+        # TODO: Support header
+        loader = UnstructuredPDFLoader(
+            "../doc/test.pdf",
+            mode="paged",  # elements/single/paged
+            strategy="fast"
+        )
+
+        data = loader.load()
+        for item in data:
+            print(item)
+
