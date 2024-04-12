@@ -4,10 +4,10 @@ from rs_core.document.document import Document
 from rs_core.loader.unstructured import UnstructuredFileLoader
 
 
-class UnstructuredPDFLoader(UnstructuredFileLoader):
-    """Load `PDF` files using `Unstructured`.
+class PyPDFLoader(UnstructuredFileLoader):
+    """Load `PDF` files using `pypdf`.
 
-    You can run the loader in one of two modes: "single" and "elements".
+    You can run the loader in one of two modes: "single" and "elements" and "paged".
     If you use "single" mode, the document will be returned as a single
     langchain Document object. If you use "elements" mode, the unstructured
     library will split the document into elements such as Title and NarrativeText.
@@ -16,9 +16,9 @@ class UnstructuredPDFLoader(UnstructuredFileLoader):
 
     Examples
     --------
-    from langchain_community.document_loaders import UnstructuredPDFLoader
+    from RAGFusion.document_loaders import PyPDFLoader
 
-    loader = UnstructuredPDFLoader(
+    loader = PyPDFLoader(
         "example.pdf", mode="elements", strategy="fast",
     )
     docs = loader.load()

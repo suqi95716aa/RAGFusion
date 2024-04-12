@@ -17,7 +17,7 @@ _module_lookup = {
     "ExcelLoader": "rs_loaders.excel",
     "UnstructuredMarkdownLoader": "rs_loaders.markdown",
     "UnstructuredWordDocumentLoader": "rs_loaders.word",
-    "UnstructuredPDFLoader": "rs_loaders.pdf",
+    "PyPDFLoader": "rs_loaders.pdf",
 }
 
 
