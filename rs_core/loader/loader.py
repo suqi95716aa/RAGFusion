@@ -4,7 +4,7 @@ from __future__ import annotations
 from abc import ABC
 from typing import Iterator, List
 
-from ss_core.base.document import Document
+from rs_core.document.document import Document
 
 
 class BaseLoader(ABC):

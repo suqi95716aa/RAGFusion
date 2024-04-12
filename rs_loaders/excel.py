@@ -4,8 +4,8 @@ from typing import Dict, Iterator, Optional, Sequence, Union
 
 import pandas as pd
 
-from ss_core.base.document import Document
-from ss_core.base.loader import BaseLoader
+from rs_core.document.document import Document
+from rs_core.loader.loader import BaseLoader
 
 
 class ExcelLoader(BaseLoader):
@@ -19,7 +19,7 @@ class ExcelLoader(BaseLoader):
 
     Examples
     --------
-    from ss_loaders import ExcelLoader
+    from rs_loaders import ExcelLoader
 
     loader = UnstructuredExcelLoader("stanley-cups.xlsx", mode="elements")
     docs = loader.load()

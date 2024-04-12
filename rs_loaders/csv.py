@@ -4,9 +4,9 @@ from io import TextIOWrapper
 from pathlib import Path
 from typing import Dict, Iterator, Optional, Sequence, Union
 
-from ss_core.base.document import Document
-from ss_core.base.loader import BaseLoader
-from ss_utils.document_utils.helpers import detect_file_encodings
+from rs_core.document.document import Document
+from rs_core.loader.loader import BaseLoader
+from rs_utils.document.helpers import detect_file_encodings
 
 
 class CSVLoader(BaseLoader):

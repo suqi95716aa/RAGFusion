@@ -4,7 +4,7 @@ from unittest import TestCase
 class TestLoader(TestCase):
 
     def test_csv_loader(self):
-        from ss_loaders import CSVLoader
+        from rs_loaders import CSVLoader
         # 详细参数可观察csv build in
         loader = CSVLoader(file_path='../doc/qa-template.csv', csv_args={
             'delimiter': ',',
@@ -16,7 +16,7 @@ class TestLoader(TestCase):
             print(item)
 
     def test_excel_loader(self):
-        from ss_loaders import ExcelLoader
+        from rs_loaders import ExcelLoader
         # 详细参数可观察csv build in
         # loader = ExcelLoader(
         #     file_path='../doc/qa-template.xlsx',
@@ -30,6 +30,14 @@ class TestLoader(TestCase):
         for item in data:
             print(item)
 
-
-
-
+    def test_markdown_loader(self):
+        from rs_loaders import UnstructuredMarkdownLoader
+        # TODO: Support header
+        loader = UnstructuredMarkdownLoader(
+            file_path='../doc/系统架构.md',
+            mode="single",  # elements/single/paged
+            strategy="fast"
+        )
+        data = loader.load()
+        for item in data:
+            print(item)

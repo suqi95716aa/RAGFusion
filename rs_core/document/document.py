@@ -1,6 +1,6 @@
 from typing import Literal, List, Any
 
-from ss_core.base.serializable import Serializable
+from rs_core.serializable.serializable import Serializable
 
 
 class Document(Serializable):
@@ -21,12 +21,12 @@ class Document(Serializable):
         super().__init__(page_content=page_content, metadata=metadata, **kwargs)
 
     @classmethod
-    def is_ss_serializable(cls) -> bool:
+    def is_rs_serializable(cls) -> bool:
         """Is this class serializable?"""
         return True
 
     @classmethod
-    def get_ss_namespace(cls) -> List[str]:
-        """Get the namespace of the langchain object."""
-        return ["superSplitter", "ss_core", "documents"]
+    def get_rs_namespace(cls) -> List[str]:
+        """Get the namespace of the RAGFusion object."""
+        return ["RAGFusion", "rs_core", "documents"]
 
