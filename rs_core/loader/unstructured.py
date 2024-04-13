@@ -1,3 +1,5 @@
+import time
+import random
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
@@ -152,4 +154,7 @@ class UnstructuredFileLoader(UnstructuredBaseLoader):
             return partition(filename=self.file_path, **self.unstructured_kwargs)
 
     def _get_metadata(self) -> dict:
-        return {"source": self.file_path}
+        return {
+            "source": self.file_path,
+            # "parent_id": f"{int(time.time() * 1000) % 10000000:04d}{random.randint(100000, 999999):03d}" # noqa 4041
+        }

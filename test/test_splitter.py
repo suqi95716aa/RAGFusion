@@ -6,10 +6,6 @@ class TestSplitter(TestCase):
 
     def test_text_direct_CharacterTextSplitter(self):
 
-        with open('../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
-            content = f.read()
-            # print(content)
-
         from rs_splitter import CharacterTextSplitter
 
         splitter = CharacterTextSplitter(
@@ -18,16 +14,38 @@ class TestSplitter(TestCase):
             keep_separator=False,
         )
 
+        # read str
+        # with open('../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
+        #     content = f.read()
+        #     # print(content)
+        #     docs_text = splitter.split_text(content)
+        #     docs_obj = splitter.create_documents(docs_text, [({"1": "2"}) for _ in range(len(docs_text) + 1)])
+        #     for item in docs_obj:
+        #         print(">>>>>>>>")
+        #         print(item)
+        #         print(">>>>>>>>")
+
+        # read document
+        from rs_loaders import UnstructuredMarkdownLoader
+        loader = UnstructuredMarkdownLoader(
+            file_path='../doc/系统架构.md',
+            mode="single",  # elements/single/paged
+            strategy="fast"
+        )
+        data = loader.load()
+        ret = splitter.split_documents(data)
+        print(ret)
+        for item in ret:
+            print(item)
+
+
+
+
         # defalut text_splitter
-        docs_text = splitter.split_text(content)
         # print(docs_text)
 
         # create doc object
-        docs_obj = splitter.create_documents(docs_text, [({"1": "2"}) for _ in range(len(docs_text)+1)])
-        for item in docs_obj:
-            print(">>>>>>>>")
-            print(item)
-            print(">>>>>>>>")
+
 
     def test_text_direct_RecursiveCharacterTextSplitter(self):
 
@@ -53,7 +71,7 @@ class TestSplitter(TestCase):
         docs_obj = splitter.create_documents(docs_text, [({"1": "2"}) for _ in range(len(docs_text)+1)])
         for item in docs_obj:
             print(">>>>>>>>>>>>>")
-            print(len(item.page_content))
+            print(item)
             print(">>>>>>>>>>>>>")
 
 
@@ -97,30 +115,45 @@ class TestSplitter(TestCase):
         )
         docs_text = splitter.split_text(content)
         docs_obj = splitter.create_documents(docs_text, [({"1": "2"}) for _ in range(len(docs_text)+1)])
-        print(docs_obj)
-
+        for item in docs_obj:
+            print(item)
 
     def test_text_direct_MarkdownHeaderTextSplitter(self):
-
         headers_to_split_on = [
             ("#", "Header 1"),
             ("##", "Header 2"),
             ("###", "Header 3"),
         ]
-
-        with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
-            content = f.read()
-
         from rs_splitter import MarkdownHeaderTextSplitter
         splitter = MarkdownHeaderTextSplitter(
             headers_to_split_on=headers_to_split_on,
             return_each_line=False,
             strip_headers=False,
         )
-        docs_text = splitter.split_text(content)
-        print(len(docs_text))
-        for item in docs_text:
-            print(item)
+
+
+        # read file
+        # with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
+        #     content = f.read()
+
+        # docs_text = splitter.split_text(content)
+        # print(len(docs_text))
+        # for item in docs_text:
+        #     print(item)
+
+
+        # read doc
+        from rs_loaders import UnstructuredMarkdownLoader
+        # TODO: Support header
+        loader = UnstructuredMarkdownLoader(
+            file_path='../doc/系统架构.md',
+            mode="single",  # elements/single/paged
+            strategy="fast"
+        )
+        data = loader.load()
+
+
+
 
 
 

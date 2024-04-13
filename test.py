@@ -1,16 +1,20 @@
-import pypdf
 
-# 打开PDF文件
-with open('./doc/test.pdf', 'rb') as file:
-    reader = pypdf.PdfReader(file)
 
-    # 初始化文本内容
-    text_content = ""
+"""
 
-    # 遍历PDF中的每一页
-    for page in reader.pages:
-        # 提取文本
-        text_content += page.extract_text() + "\n"
+是按标题？还是按父子关系？
+所以它们两个应该是不一样的，但是可以互相增强。
 
-# 打印文本内容
-print(text_content)
+parent-child document splitter
+
+1. 父节点有parent_id，子节点同时有parent_id、child_id
+2. 可以选择切分模式
+2.1 重组后切分（默认），条件：传入parentSplitter、childSplitter、原始文档（接受文本/Document对象）
+2.2 不重组切分 条件：传入childSplitter、Document对象
+
+做法：
+1. 先寻找它们的header关系，成数组然后去重；
+2. 开始找，然后切片
+3.
+
+"""

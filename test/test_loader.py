@@ -40,7 +40,7 @@ class TestLoader(TestCase):
         )
         data = loader.load()
         for item in data:
-            print(item)
+            print(item.metadata)
 
     def test_word_loader(self):
         from rs_loaders import UnstructuredWordDocumentLoader
@@ -70,9 +70,9 @@ class TestLoader(TestCase):
         # for item in data: print(item)
 
     def test_pdf_loader(self):
-        from rs_loaders import UnstructuredPDFLoader
+        from rs_loaders import PyPDFLoader
         # TODO: Support header
-        loader = UnstructuredPDFLoader(
+        loader = PyPDFLoader(
             "../doc/test.pdf",
             mode="paged",  # elements/single/paged
             strategy="fast"
