@@ -15,9 +15,9 @@ from typing import Any
 _module_lookup = {
     "CSVLoader": "rs_loaders.csv",
     "ExcelLoader": "rs_loaders.excel",
+    "PyPDFLoader": "rs_loaders.pdf",
     "UnstructuredMarkdownLoader": "rs_loaders.markdown",
     "UnstructuredWordDocumentLoader": "rs_loaders.word",
-    "PyPDFLoader": "rs_loaders.pdf",
 }
 
 

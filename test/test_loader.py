@@ -55,6 +55,20 @@ class TestLoader(TestCase):
         print(len(data))
         for item in data: print(item)
 
+    def test_async_word_loader(self):
+        from rs_loaders import UnstructuredWordDocumentLoader
+        import asyncio
+        # TODO: Support header
+        loader = UnstructuredWordDocumentLoader(
+            "../doc/附件10 整体服务方案.doc",
+            mode="paged",  # elements/single/paged
+            strategy="fast"
+        )
+        loop = asyncio.get_event_loop()
+        data = loop.run_until_complete(loader.aload())
+        print(str(data[0]))
+        # for item in data: print(item)
+
     def test_pdf_loader(self):
         from rs_loaders import UnstructuredPDFLoader
         # TODO: Support header
@@ -67,4 +81,22 @@ class TestLoader(TestCase):
         data = loader.load()
         for item in data:
             print(item)
+
+    def test_async_pdf_loader(self):
+        from rs_loaders import PyPDFLoader
+        import asyncio
+
+        loader = PyPDFLoader(
+            "../doc/test.pdf",
+            mode="paged",  # elements/single/paged
+            strategy="fast"
+        )
+        loop = asyncio.get_event_loop()
+        data = loop.run_until_complete(loader.aload())
+        print(data)
+        for item in data:
+            print(item)
+
+
+
 
