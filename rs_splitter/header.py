@@ -358,9 +358,9 @@ class TextHeaderSplitter(HeaderExtractor):
         super().__init__(**kwargs)
 
     def split_text(self, texts: List[Union[str, Document]]) -> List[Document]:
-        """Split Word file path
+        """Split text
         Args:
-            texts: Word file path"""
+            texts: list of text or document"""
 
         if not all(isinstance(item, (str, Document)) for item in texts):
             raise ValueError("Only can support type of Str or Document object.")
