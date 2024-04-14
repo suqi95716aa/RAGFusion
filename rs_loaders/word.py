@@ -1,5 +1,4 @@
 import os
-import sys
 from typing import List
 
 from rs_core.loader.unstructured import UnstructuredFileLoader
@@ -44,7 +43,6 @@ class UnstructuredWordDocumentLoader(UnstructuredFileLoader):
             import magic  # noqa: F401
 
             is_doc = detect_filetype(self.file_path) == FileType.DOC
-            print(is_doc)
         except ImportError:
             _, extension = os.path.splitext(str(self.file_path))
             is_doc = extension == ".doc"

@@ -18,3 +18,17 @@ parent-child document splitter
 3.
 
 """
+
+import re
+
+# 定义正则表达式
+pattern = r"^(\d+(\.\d+)*)[^,.。|;:'\"?!]*$"
+
+# 示例字符串
+test_string = "1.2.3 表达式?"
+
+# 检查字符串是否符合正则表达式的条件
+if re.match(pattern, test_string):
+    print("匹配成功")
+else:
+    print("匹配失败")

@@ -19,8 +19,6 @@ Note: **MarkdownHeaderTextSplitter** and **HTMLHeaderTextSplitter do not derive 
 
 """  # noqa: E501
 
-
-
 from rs_splitter.base import (
     TokenTextSplitter,
     TextSplitter,
@@ -34,11 +32,12 @@ from rs_splitter.character import (
     RecursiveCharacterTextSplitter
 )
 
-from rs_splitter.markdown import (
+from rs_splitter.header import (
+    MarkdownTextSplitter,
     MarkdownHeaderTextSplitter,
-    MarkdownTextSplitter
+    WordHeaderTextSplitter,
+    TextHeaderSplitter
 )
-
 
 __all__ = [
     "TokenTextSplitter",
@@ -58,8 +57,9 @@ __all__ = [
     # "HeaderType",
     # "LineType",
     # "HTMLHeaderTextSplitter",
-    "MarkdownHeaderTextSplitter",
     "MarkdownTextSplitter",
     "CharacterTextSplitter",
+    "MarkdownHeaderTextSplitter",
+    "WordHeaderTextSplitter",
+    "TextHeaderSplitter"
 ]
-

@@ -127,35 +127,54 @@ class TestSplitter(TestCase):
         from rs_splitter import MarkdownHeaderTextSplitter
         splitter = MarkdownHeaderTextSplitter(
             headers_to_split_on=headers_to_split_on,
-            return_each_line=False,
+            return_each_line=True,
             strip_headers=False,
         )
 
 
         # read file
-        # with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
-        #     content = f.read()
+        with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
+            content = f.read()
 
-        # docs_text = splitter.split_text(content)
-        # print(len(docs_text))
-        # for item in docs_text:
-        #     print(item)
+        docs_text = splitter.split_text(content)
+        print(len(docs_text))
+        for item in docs_text:
+            print(item)
 
 
         # read doc
-        from rs_loaders import UnstructuredMarkdownLoader
-        # TODO: Support header
-        loader = UnstructuredMarkdownLoader(
-            file_path='../doc/系统架构.md',
-            mode="single",  # elements/single/paged
-            strategy="fast"
+        # from rs_loaders import UnstructuredMarkdownLoader
+        # loader = UnstructuredMarkdownLoader(
+        #     file_path='../doc/系统架构.md',
+        #     mode="single",  # elements/single/paged
+        #     strategy="fast"
+        # )
+        # data = loader.load()
+
+    def test_text_direct_WordHeaderTextSplitter(self):
+
+
+        from rs_splitter import WordHeaderTextSplitter
+        splitter = WordHeaderTextSplitter(
+            strip_headers=False,
         )
-        data = loader.load()
+        data = splitter.split_text(r"F:\编程项目\backend\RAGFusion\doc\福州市长乐区百户村智慧乡村项目-可研暨初设方案v3.5 15.40（20200312）(1).docx")
+        #
+        for item in data:
+            print(item)
+            # print(item.page_content[:20], item.metadata)
 
+    def test_text_direct_TextHeaderSplitter(self):
 
+        with open(r"F:\编程项目\backend\RAGFusion\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
+            content = f.read()
 
-
-
-
+        from rs_splitter import TextHeaderSplitter
+        splitter = TextHeaderSplitter()
+        data = splitter.split_text([content])
+        #
+        for item in data:
+            print(item)
+            # print(item.page_content[:20], item.metadata)
 
 
