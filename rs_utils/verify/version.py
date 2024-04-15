@@ -1,5 +1,5 @@
 def satisfies_min_unstructured_version(min_version: str) -> bool:
-    """Check if the installed `Unstructured` version exceeds the minimum version
+    """Check if the installed `Unstructured` verify exceeds the minimum verify
     for the feature in question."""
     from unstructured.__version__ import __version__ as __unstructured_version__
 
@@ -16,7 +16,7 @@ def satisfies_min_unstructured_version(min_version: str) -> bool:
 
 
 def validate_unstructured_version(min_unstructured_version: str) -> None:
-    """Raise an error if the `Unstructured` version does not exceed the
+    """Raise an error if the `Unstructured` verify does not exceed the
     specified minimum."""
     if not satisfies_min_unstructured_version(min_unstructured_version):
         raise ValueError(

@@ -6,7 +6,7 @@ from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
 from rs_core.document.document import Document
 from rs_core.loader.loader import BaseLoader
-from rs_utils.version.verify import satisfies_min_unstructured_version
+from rs_utils.verify.version import satisfies_min_unstructured_version
 
 
 class UnstructuredBaseLoader(BaseLoader, ABC):

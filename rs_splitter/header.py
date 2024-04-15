@@ -8,16 +8,6 @@ from typing import Any, Dict, List, Tuple, TypedDict, Union
 from unstructured.file_utils.filetype import detect_filetype, FileType
 
 from rs_core.document.document import Document
-from rs_splitter import RecursiveCharacterTextSplitter, Language
-
-
-class MarkdownTextSplitter(RecursiveCharacterTextSplitter):
-    """Attempts to split the text along Markdown-formatted headings."""
-
-    def __init__(self, **kwargs: Any) -> None:
-        """Initialize a MarkdownTextSplitter."""
-        separators = self.get_separators_for_language(Language.MARKDOWN)
-        super().__init__(separators=separators, **kwargs)
 
 
 class MarkdownHeaderTextSplitter:
@@ -225,7 +215,7 @@ class HeaderExtractor:
         # Split headers by re, default like '1.2.3 Summary'
         self.splite_headers_re = splite_headers_re
 
-    def word_headers_extractor(
+    def _word_headers_extractor(
             self,
             file_path: str,
     ) -> List[Document]:
@@ -243,8 +233,10 @@ class HeaderExtractor:
             "Heading 1": None, "Heading 2": None,
             "Heading 3": None, "Heading 4": None
         }
-        documents = []
-        content = ""
+        # Saving the sequence of documentation
+        documents: List[Document] = []
+        # Saving the temporary content
+        content: str = ""
 
         for paragraph in document_parts.paragraphs:
             paragraph_style = paragraph.style.name
@@ -285,7 +277,7 @@ class HeaderExtractor:
 
         return documents
 
-    def text_headers_extractor(self, texts: List[Union[str, Document]] = None) -> List[Document]:
+    def _text_headers_extractor(self, texts: List[Union[str, Document]] = None) -> List[Document]:
         """Splitting headers by re"""
 
         text = '\n'.join((
@@ -295,9 +287,12 @@ class HeaderExtractor:
             for item in texts
         ))
 
-        documents = []
-        content = ""
-        old_title = None
+        # Saving the sequence of documentation
+        documents: List[Document] = []
+        # Saving the temporary content
+        content: str = ""
+        # For comparing current new title and save
+        old_title: str = None
         for line in text.split("\n"):
             if not line:
                 continue
@@ -340,7 +335,7 @@ class WordHeaderTextSplitter(HeaderExtractor):
                 not os.path.isfile(file_path):
             raise ValueError(f"Not valuable file type: {file_path}")
 
-        return self.word_headers_extractor(file_path)
+        return self._word_headers_extractor(file_path)
 
 
 class TextHeaderSplitter(HeaderExtractor):
@@ -365,7 +360,7 @@ class TextHeaderSplitter(HeaderExtractor):
         if not all(isinstance(item, (str, Document)) for item in texts):
             raise ValueError("Only can support type of Str or Document object.")
 
-        return self.text_headers_extractor(texts)
+        return self._text_headers_extractor(texts)
 
 
 class LineType(TypedDict):

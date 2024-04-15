@@ -577,3 +577,11 @@ class RecursiveCharacterTextSplitter(TextSplitter):
                 f"Language {language} is not supported! "
                 f"Please choose from {list(Language)}"
             )
+
+class MarkdownTextSplitter(RecursiveCharacterTextSplitter):
+    """Attempts to split the text along Markdown-formatted headings."""
+
+    def __init__(self, **kwargs: Any) -> None:
+        """Initialize a MarkdownTextSplitter."""
+        separators = self.get_separators_for_language(Language.MARKDOWN)
+        super().__init__(separators=separators, **kwargs)

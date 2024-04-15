@@ -19,47 +19,30 @@ Note: **MarkdownHeaderTextSplitter** and **HTMLHeaderTextSplitter do not derive 
 
 """  # noqa: E501
 
-from rs_splitter.base import (
-    TokenTextSplitter,
-    TextSplitter,
-    Tokenizer,
-    Language,
-    split_text_on_tokens
-)
+import importlib
+from typing import Any
 
-from rs_splitter.character import (
-    CharacterTextSplitter,
-    RecursiveCharacterTextSplitter
-)
+_module_lookup = {
+    "TokenTextSplitter": "rs_splitter.base",
+    "TextSplitter": "rs_splitter.base",
+    "Tokenizer": "rs_splitter.base",
+    "Language": "rs_splitter.base",
+    "split_text_on_tokens": "rs_splitter.base",
+    "MarkdownTextSplitter": "rs_splitter.character",
+    "CharacterTextSplitter": "rs_splitter.character",
+    "RecursiveCharacterTextSplitter": "rs_splitter.character",
+    "MarkdownHeaderTextSplitter": "rs_splitter.header",
+    "WordHeaderTextSplitter": "rs_splitter.header",
+    "TextHeaderSplitter": "rs_splitter.header",
+    "ParentDocumentSplitter": "rs_splitter.parent",
+}
 
-from rs_splitter.header import (
-    MarkdownTextSplitter,
-    MarkdownHeaderTextSplitter,
-    WordHeaderTextSplitter,
-    TextHeaderSplitter
-)
 
-__all__ = [
-    "TokenTextSplitter",
-    "TextSplitter",
-    "Tokenizer",
-    "Language",
-    "RecursiveCharacterTextSplitter",
-    # "RecursiveJsonSplitter",
-    # "LatexTextSplitter",
-    # "PythonCodeTextSplitter",
-    # "KonlpyTextSplitter",
-    # "SpacyTextSplitter",
-    # "NLTKTextSplitter",
-    "split_text_on_tokens",
-    # "SentenceTransformersTokenTextSplitter",
-    # "ElementType",
-    # "HeaderType",
-    # "LineType",
-    # "HTMLHeaderTextSplitter",
-    "MarkdownTextSplitter",
-    "CharacterTextSplitter",
-    "MarkdownHeaderTextSplitter",
-    "WordHeaderTextSplitter",
-    "TextHeaderSplitter"
-]
+def __getattr__(name: str) -> Any:
+    if name in _module_lookup:
+        module = importlib.import_module(_module_lookup[name])
+        return getattr(module, name)
+    raise AttributeError(f"module {__name__} has no attribute {name}")
+
+
+__all__ = list(_module_lookup.keys())

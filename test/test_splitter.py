@@ -166,7 +166,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_TextHeaderSplitter(self):
 
-        with open(r"F:\编程项目\backend\RAGFusion\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
+        with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
         from rs_splitter import TextHeaderSplitter
@@ -177,4 +177,21 @@ class TestSplitter(TestCase):
             print(item)
             # print(item.page_content[:20], item.metadata)
 
+    def test_doc_ParentDocumentSplitter(self):
 
+        with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
+            content = f.read()
+
+        from rs_splitter import ParentDocumentSplitter
+        from rs_splitter import RecursiveCharacterTextSplitter
+        from rs_splitter import TextHeaderSplitter
+        splitter = TextHeaderSplitter()
+        docs = splitter.split_text([content])
+
+        parent_splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=0, add_start_index=True)
+        child_splitter = RecursiveCharacterTextSplitter(chunk_size=500,  chunk_overlap=0, add_start_index=True)
+        p_splitter = ParentDocumentSplitter(
+                            child_splitter=child_splitter,
+                            parent_splitter=parent_splitter,
+                        )
+        p_splitter.split_documents(docs)
