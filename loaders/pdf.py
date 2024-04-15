@@ -1,7 +1,7 @@
 from typing import List, Iterator, Dict
 
-from rs_core.document.document import Document
-from rs_core.loader.unstructured import UnstructuredFileLoader
+from core.document.document import Document
+from core.loader.unstructured import UnstructuredFileLoader
 
 
 class PyPDFLoader(UnstructuredFileLoader):

@@ -20,8 +20,8 @@ from typing import (
     Union,
 )
 
-from rs_core.document.document import Document
-from rs_core.document.transformets import BaseDocumentTransformer
+from core.document.document import Document
+from core.document.transformets import BaseDocumentTransformer
 
 logger = logging.getLogger(__name__)
 

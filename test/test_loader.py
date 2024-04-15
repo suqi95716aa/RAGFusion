@@ -4,7 +4,7 @@ from unittest import TestCase
 class TestLoader(TestCase):
 
     def test_csv_loader(self):
-        from rs_loaders import CSVLoader
+        from loaders import CSVLoader
         # 详细参数可观察csv build in
         loader = CSVLoader(file_path='../doc/qa-template.csv', csv_args={
             'delimiter': ',',
@@ -16,7 +16,7 @@ class TestLoader(TestCase):
             print(item)
 
     def test_excel_loader(self):
-        from rs_loaders import ExcelLoader
+        from loaders import ExcelLoader
         # 详细参数可观察csv build in
         # loader = ExcelLoader(
         #     file_path='../doc/qa-template.xlsx',
@@ -31,7 +31,7 @@ class TestLoader(TestCase):
             print(item)
 
     def test_markdown_loader(self):
-        from rs_loaders import UnstructuredMarkdownLoader
+        from loaders import UnstructuredMarkdownLoader
         # TODO: Support header
         loader = UnstructuredMarkdownLoader(
             file_path='../doc/系统架构.md',
@@ -43,7 +43,7 @@ class TestLoader(TestCase):
             print(item.metadata)
 
     def test_word_loader(self):
-        from rs_loaders import UnstructuredWordDocumentLoader
+        from loaders import UnstructuredWordDocumentLoader
         # TODO: Support header
         loader = UnstructuredWordDocumentLoader(
             "../doc/附件10 整体服务方案.doc",
@@ -56,7 +56,7 @@ class TestLoader(TestCase):
         for item in data: print(item)
 
     def test_async_word_loader(self):
-        from rs_loaders import UnstructuredWordDocumentLoader
+        from loaders import UnstructuredWordDocumentLoader
         import asyncio
         # TODO: Support header
         loader = UnstructuredWordDocumentLoader(
@@ -70,7 +70,7 @@ class TestLoader(TestCase):
         # for item in data: print(item)
 
     def test_pdf_loader(self):
-        from rs_loaders import PyPDFLoader
+        from loaders import PyPDFLoader
         # TODO: Support header
         loader = PyPDFLoader(
             "../doc/test.pdf",
@@ -83,7 +83,7 @@ class TestLoader(TestCase):
             print(item)
 
     def test_async_pdf_loader(self):
-        from rs_loaders import PyPDFLoader
+        from loaders import PyPDFLoader
         import asyncio
 
         loader = PyPDFLoader(

@@ -7,7 +7,7 @@ from typing import Any, Dict, List, Tuple, TypedDict, Union
 
 from unstructured.file_utils.filetype import detect_filetype, FileType
 
-from rs_core.document.document import Document
+from core.document.document import Document
 
 
 class MarkdownHeaderTextSplitter:

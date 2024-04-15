@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from rs_core.loader.unstructured import UnstructuredFileLoader
+from core.loader.unstructured import UnstructuredFileLoader
 
 
 class UnstructuredWordDocumentLoader(UnstructuredFileLoader):
@@ -17,7 +17,7 @@ class UnstructuredWordDocumentLoader(UnstructuredFileLoader):
 
     Examples
     --------
-    from rs_loaders import UnstructuredWordDocumentLoader
+    from loaders import UnstructuredWordDocumentLoader
 
     loader = UnstructuredWordDocumentLoader(
         "example.docx", mode="elements", strategy="fast",

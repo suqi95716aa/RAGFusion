@@ -4,8 +4,8 @@ from __future__ import annotations
 from abc import ABC
 from typing import Iterator, List, AsyncIterator
 
-from rs_core.document.document import Document
-from rs_core.runnables.sync import run_in_executor
+from core.document.document import Document
+from core.runnables.sync import run_in_executor
 
 
 class BaseLoader(ABC):

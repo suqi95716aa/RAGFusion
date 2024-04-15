@@ -3,10 +3,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Sequence
 
-from rs_core.runnables.sync import run_in_executor
+from core.runnables.sync import run_in_executor
 
 if TYPE_CHECKING:
-    from rs_core.document.document import Document
+    from core.document.document import Document
 
 
 class BaseDocumentTransformer(ABC):

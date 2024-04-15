@@ -4,8 +4,8 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Callable, Dict, Iterator, List, Optional, Union
 
-from rs_core.document.document import Document
-from rs_core.loader.loader import BaseLoader
+from core.document.document import Document
+from core.loader.loader import BaseLoader
 from rs_utils.verify.version import satisfies_min_unstructured_version
 
 
@@ -116,7 +116,7 @@ class UnstructuredFileLoader(UnstructuredBaseLoader):
 
     Examples
     --------
-    from rs_loaders import UnstructuredMarkdownLoader
+    from loaders import UnstructuredMarkdownLoader
 
     loader = UnstructuredFileLoader(
         "example.pdf", mode="elements", strategy="fast",

@@ -18,8 +18,8 @@ class Serializable(ABC):
     def get_rs_namespace(cls) -> List[str]:
         """Get the namespace of the RAGFusion object.
 
-        For example, if the class is `RAGFusion.rs_core.serializable.Serializable`, then the
-        namespace is ["RAGFusion", "rs_core", "documents"]
+        For example, if the class is `RAGFusion.core.serializable.Serializable`, then the
+        namespace is ["RAGFusion", "core", "documents"]
         """
         return cls.__module__.split(".")
 

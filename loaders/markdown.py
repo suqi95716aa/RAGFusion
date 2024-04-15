@@ -1,6 +1,6 @@
 from typing import List
 
-from rs_core.loader.unstructured import UnstructuredFileLoader
+from core.loader.unstructured import UnstructuredFileLoader
 
 
 class UnstructuredMarkdownLoader(UnstructuredFileLoader):
@@ -15,7 +15,7 @@ class UnstructuredMarkdownLoader(UnstructuredFileLoader):
 
     Examples
     --------
-    from rs_loaders import UnstructuredMarkdownLoader
+    from loaders import UnstructuredMarkdownLoader
 
     loader = UnstructuredMarkdownLoader(
         "example.md", mode="elements", strategy="fast",

@@ -1,6 +1,6 @@
 from typing import Literal, List, Any
 
-from rs_core.serializable.serializable import Serializable
+from core.serializable.serializable import Serializable
 
 
 class Document(Serializable):
@@ -28,5 +28,5 @@ class Document(Serializable):
     @classmethod
     def get_rs_namespace(cls) -> List[str]:
         """Get the namespace of the RAGFusion object."""
-        return ["RAGFusion", "rs_core", "documents"]
+        return ["RAGFusion", "core", "documents"]
 

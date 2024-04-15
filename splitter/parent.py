@@ -1,8 +1,8 @@
 import uuid
 from typing import Iterable, List, Optional, Sequence, Union, Callable, Dict, Tuple
 
-from rs_core.document.document import Document
-from rs_splitter import RecursiveCharacterTextSplitter
+from core.document.document import Document
+from splitter import RecursiveCharacterTextSplitter
 
 
 class ParentDocumentSplitter:
@@ -24,9 +24,9 @@ class ParentDocumentSplitter:
 
             .. code-block:: python
 
-                from rs_splitter import ParentDocumentSplitter
-                from rs_splitter import RecursiveCharacterTextSplitter
-                from rs_splitter import TextHeaderSplitter
+                from splitter import ParentDocumentSplitter
+                from splitter import RecursiveCharacterTextSplitter
+                from splitter import TextHeaderSplitter
                 splitter = TextHeaderSplitter()
                 docs = splitter.split_text([content])
         

@@ -6,7 +6,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_CharacterTextSplitter(self):
 
-        from rs_splitter import CharacterTextSplitter
+        from splitter import CharacterTextSplitter
 
         splitter = CharacterTextSplitter(
             chunk_size=400,
@@ -26,7 +26,7 @@ class TestSplitter(TestCase):
         #         print(">>>>>>>>")
 
         # read document
-        from rs_loaders import UnstructuredMarkdownLoader
+        from loaders import UnstructuredMarkdownLoader
         loader = UnstructuredMarkdownLoader(
             file_path='../doc/系统架构.md',
             mode="single",  # elements/single/paged
@@ -53,7 +53,7 @@ class TestSplitter(TestCase):
             content = f.read()
             # print(content)
 
-        from rs_splitter import RecursiveCharacterTextSplitter
+        from splitter import RecursiveCharacterTextSplitter
 
         splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
@@ -81,7 +81,7 @@ class TestSplitter(TestCase):
             content = f.read()
             # print(content)
 
-        from rs_splitter import TokenTextSplitter
+        from splitter import TokenTextSplitter
 
         # 这里一个token大约由4个字符组成
         splitter = TokenTextSplitter(
@@ -108,7 +108,7 @@ class TestSplitter(TestCase):
         with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
             content = f.read()
 
-        from rs_splitter import MarkdownTextSplitter
+        from splitter import MarkdownTextSplitter
         splitter = MarkdownTextSplitter(
             chunk_size=500,
             chunk_overlap=10,
@@ -124,7 +124,7 @@ class TestSplitter(TestCase):
             ("##", "Header 2"),
             ("###", "Header 3"),
         ]
-        from rs_splitter import MarkdownHeaderTextSplitter
+        from splitter import MarkdownHeaderTextSplitter
         splitter = MarkdownHeaderTextSplitter(
             headers_to_split_on=headers_to_split_on,
             return_each_line=True,
@@ -143,7 +143,7 @@ class TestSplitter(TestCase):
 
 
         # read doc
-        # from rs_loaders import UnstructuredMarkdownLoader
+        # from loaders import UnstructuredMarkdownLoader
         # loader = UnstructuredMarkdownLoader(
         #     file_path='../doc/系统架构.md',
         #     mode="single",  # elements/single/paged
@@ -154,7 +154,7 @@ class TestSplitter(TestCase):
     def test_text_direct_WordHeaderTextSplitter(self):
 
 
-        from rs_splitter import WordHeaderTextSplitter
+        from splitter import WordHeaderTextSplitter
         splitter = WordHeaderTextSplitter(
             strip_headers=False,
         )
@@ -169,7 +169,7 @@ class TestSplitter(TestCase):
         with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
-        from rs_splitter import TextHeaderSplitter
+        from splitter import TextHeaderSplitter
         splitter = TextHeaderSplitter()
         data = splitter.split_text([content])
         #
@@ -182,9 +182,9 @@ class TestSplitter(TestCase):
         with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
-        from rs_splitter import ParentDocumentSplitter
-        from rs_splitter import RecursiveCharacterTextSplitter
-        from rs_splitter import TextHeaderSplitter
+        from splitter import ParentDocumentSplitter
+        from splitter import RecursiveCharacterTextSplitter
+        from splitter import TextHeaderSplitter
         splitter = TextHeaderSplitter()
         docs = splitter.split_text([content])
 
@@ -195,3 +195,14 @@ class TestSplitter(TestCase):
                             parent_splitter=parent_splitter,
                         )
         p_splitter.split_documents(docs)
+
+    def test_NLTKTextSplitter(self):
+        with open(r"..\doc\新建文本文档 (2).txt", "r", encoding="utf-8") as f:
+            content = f.read()
+
+        from splitter import NLTKTextSplitter
+
+        splitter = NLTKTextSplitter(chunk_size=100, chunk_overlap=50)
+        ret = splitter.split_text(content)
+        print(ret[0])
+        print(len(ret[0]))

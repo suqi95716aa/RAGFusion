@@ -23,18 +23,19 @@ import importlib
 from typing import Any
 
 _module_lookup = {
-    "TokenTextSplitter": "rs_splitter.base",
-    "TextSplitter": "rs_splitter.base",
-    "Tokenizer": "rs_splitter.base",
-    "Language": "rs_splitter.base",
-    "split_text_on_tokens": "rs_splitter.base",
-    "MarkdownTextSplitter": "rs_splitter.character",
-    "CharacterTextSplitter": "rs_splitter.character",
-    "RecursiveCharacterTextSplitter": "rs_splitter.character",
-    "MarkdownHeaderTextSplitter": "rs_splitter.header",
-    "WordHeaderTextSplitter": "rs_splitter.header",
-    "TextHeaderSplitter": "rs_splitter.header",
-    "ParentDocumentSplitter": "rs_splitter.parent",
+    "TokenTextSplitter": "splitter.base",
+    "TextSplitter": "splitter.base",
+    "Tokenizer": "splitter.base",
+    "Language": "splitter.base",
+    "split_text_on_tokens": "splitter.base",
+    "MarkdownTextSplitter": "splitter.character",
+    "CharacterTextSplitter": "splitter.character",
+    "RecursiveCharacterTextSplitter": "splitter.character",
+    "MarkdownHeaderTextSplitter": "splitter.header",
+    "WordHeaderTextSplitter": "splitter.header",
+    "TextHeaderSplitter": "splitter.header",
+    "ParentDocumentSplitter": "splitter.parent",
+    "NLTKTextSplitter": "splitter.nltk",
 }
 
 

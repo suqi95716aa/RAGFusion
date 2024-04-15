@@ -13,11 +13,11 @@ import importlib
 from typing import Any
 
 _module_lookup = {
-    "CSVLoader": "rs_loaders.csv",
-    "ExcelLoader": "rs_loaders.excel",
-    "PyPDFLoader": "rs_loaders.pdf",
-    "UnstructuredMarkdownLoader": "rs_loaders.markdown",
-    "UnstructuredWordDocumentLoader": "rs_loaders.word",
+    "CSVLoader": "loaders.csv",
+    "ExcelLoader": "loaders.excel",
+    "PyPDFLoader": "loaders.pdf",
+    "UnstructuredMarkdownLoader": "loaders.markdown",
+    "UnstructuredWordDocumentLoader": "loaders.word",
 }
 
 
