@@ -6,7 +6,7 @@ class TestLoader(TestCase):
     def test_csv_loader(self):
         from loaders import CSVLoader
         # 详细参数可观察csv build in
-        loader = CSVLoader(file_path='../doc/qa-template.csv', csv_args={
+        loader = CSVLoader(file_path='../../doc/qa-template.csv', csv_args={
             'delimiter': ',',
             'quotechar': '"',
             # 'fieldnames': ['MLB Team', 'Payroll in millions', 'Wins']
@@ -24,7 +24,7 @@ class TestLoader(TestCase):
         #     metadata_columns=("query",)   # 在excel cols中的元数据，不充当数据源
         # )
         loader = ExcelLoader(
-            file_path='../doc/副本副本流程助手终版校验final666.xlsx',
+            file_path='../../doc/副本副本流程助手终版校验final666.xlsx',
         )
         data = loader.load()
         for item in data:
@@ -34,7 +34,7 @@ class TestLoader(TestCase):
         from loaders import UnstructuredMarkdownLoader
         # TODO: Support header
         loader = UnstructuredMarkdownLoader(
-            file_path='../doc/系统架构.md',
+            file_path='../../doc/系统架构.md',
             mode="single",  # elements/single/paged
             strategy="fast"
         )

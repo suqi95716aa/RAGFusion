@@ -6,7 +6,7 @@ from typing import Dict, Iterator, Optional, Sequence, Union
 
 from core.document.document import Document
 from core.loader.loader import BaseLoader
-from rs_utils.document.helpers import detect_file_encodings
+from utils.document.helpers import detect_file_encodings
 
 
 class CSVLoader(BaseLoader):

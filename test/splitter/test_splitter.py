@@ -28,7 +28,7 @@ class TestSplitter(TestCase):
         # read document
         from loaders import UnstructuredMarkdownLoader
         loader = UnstructuredMarkdownLoader(
-            file_path='../doc/系统架构.md',
+            file_path='../../doc/系统架构.md',
             mode="single",  # elements/single/paged
             strategy="fast"
         )
@@ -49,7 +49,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_RecursiveCharacterTextSplitter(self):
 
-        with open('../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
+        with open('../../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
             content = f.read()
             # print(content)
 
@@ -77,7 +77,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_TokenTextSplitter(self):
 
-        with open('../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
+        with open('../../doc/新建文本文档.txt', 'r', encoding="utf-8") as f:
             content = f.read()
             # print(content)
 
@@ -105,7 +105,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_MarkdownTextSplitter(self):
 
-        with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
+        with open('../../doc/系统架构.md', 'r', encoding="utf-8") as f:
             content = f.read()
 
         from splitter import MarkdownTextSplitter
@@ -133,7 +133,7 @@ class TestSplitter(TestCase):
 
 
         # read file
-        with open('../doc/系统架构.md', 'r', encoding="utf-8") as f:
+        with open('../../doc/系统架构.md', 'r', encoding="utf-8") as f:
             content = f.read()
 
         docs_text = splitter.split_text(content)
@@ -166,7 +166,7 @@ class TestSplitter(TestCase):
 
     def test_text_direct_TextHeaderSplitter(self):
 
-        with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
+        with open(r"../../doc/新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
         from splitter import TextHeaderSplitter
@@ -179,7 +179,7 @@ class TestSplitter(TestCase):
 
     def test_doc_ParentDocumentSplitter(self):
 
-        with open(r"..\doc\新建文本文档.txt", "r", encoding="utf-8") as f:
+        with open(r"../../doc/新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
         from splitter import ParentDocumentSplitter
@@ -197,7 +197,7 @@ class TestSplitter(TestCase):
         p_splitter.split_documents(docs)
 
     def test_NLTKTextSplitter(self):
-        with open(r"..\doc\新建文本文档 (2).txt", "r", encoding="utf-8") as f:
+        with open(r"../../doc/新建文本文档 (2).txt", "r", encoding="utf-8") as f:
             content = f.read()
 
         from splitter import NLTKTextSplitter
