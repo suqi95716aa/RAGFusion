@@ -9,23 +9,75 @@ BGE model link: https://huggingface.co/BAAI/
 BGE Code Warehouse: https://github.com/FlagOpen/FlagEmbedding
 C-MTEB evaluation benchmark link: https://github.com/FlagOpen/FlagEmbedding/tree/master/benchmark
 """
+from __future__ import annotations
+
 import json
 import requests
-from typing import Optional, Dict, List, Any
+from typing import Optional, Dict, List, Any, Callable
 
+from tenacity import (
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
+from requests.exceptions import HTTPError
 from pydantic import model_validator, BaseModel
 
 from core.embeddings import Embedding
 
 # FIX: 用解析文件方式代替
-# Basic params
-CONTENT_TYPE: str = "application/json"
 TOKEN: str = "b8d1e618e3e973b4d7b67fe3467ef43c"
 BGE_URL: str = "http://116.204.124.212:32222/api/model/bge_call_service/emb_query"
 
 
+def _create_retry_decorator(embeddings: BGETextEmbedding) -> Callable[[Any], Any]:
+    multiplier = 1
+    min_seconds = 1
+    max_seconds = 4
+    # Wait 2^x * 1 second between each retry starting with
+    # 1 seconds, then up to 4 seconds, then 4 seconds afterwards
+    return retry(
+        reraise=True,
+        stop=stop_after_attempt(embeddings.max_retries),
+        wait=wait_exponential(multiplier, min=min_seconds, max=max_seconds),
+        retry=(retry_if_exception_type(HTTPError))
+    )
+
+
+def embed_with_retry(embeddings: BGETextEmbedding, text) -> Any:
+    """Use tenacity to retry the embedding call."""
+    retry_decorator = _create_retry_decorator(embeddings)
+
+    @retry_decorator
+    def _embed_with_retry(text) -> Any:
+        try:
+            response = requests.post(
+                url=BGE_URL,
+                headers={
+                    "Content-Type": "application/json",
+                    "token": embeddings.token
+                },
+                data=json.dumps({"query": text})
+            )
+            if response.status_code == 200:
+                return json.loads(response.content)["emb"]
+            elif response.status_code in [400, 401]:
+                # Unreachable Code
+                raise ValueError(f"HTTP error occurred: status_code: {response.status_code} \n ")
+            else:
+                raise HTTPError(
+                    f"HTTP error occurred: status_code: {response.status_code} \n "
+                )
+        except Exception as e:
+            # Log the exception or handle it as needed
+            raise ValueError(f"Error happen: {str(e)}")
+
+    return _embed_with_retry(text)
+
+
 # NOTE!! Without Public URL to use, just build myself
-class BGETextEmbedding(BaseModel, Embedding):
+class BGETextEmbedding(Embedding, BaseModel):
 
     """
     Using BGE model to embed text.
@@ -33,28 +85,23 @@ class BGETextEmbedding(BaseModel, Embedding):
     Exeample Code:
 
         from embeddings import BGETextEmbedding
-
         data = {
-            "header": {"Header text": "!"},
-            "url": "URL text"
+            "token": ""
+            "max_retries": 5
         }
         emb = BGETextEmbedding(**data)
-        # test to_docs_vec
-        vec = emb.to_docs_vec("123")
+        vec = emb.to_docs_vec("I wanna test")
     """
 
-    # Model use header
-    header: Optional[Dict] = None
-    # Model use URL
-    url: Optional[str] = None
+    """Initial header in the embedding"""
+    token: Optional[str] = TOKEN
+    """Set max retry nums, default 2"""
+    max_retries: Optional[int] = 2
 
-    @model_validator(mode='before')
+    @model_validator(mode="before")
     @classmethod
-    def validate_relative_env(cls, values: Any) -> Any:
-        """Enrich params that send request need"""
-        values["header"] = {"Content-Type": CONTENT_TYPE, "token": TOKEN}
-        values["url"] = BGE_URL
-        return values
+    def validate_env(cls, data: Any) -> Any:
+        return data
 
     def _emb(self, text: str) -> Optional[List[float]]:
         """Embed method"""
@@ -66,26 +113,43 @@ class BGETextEmbedding(BaseModel, Embedding):
             )
             if response.status_code == 200:
                 return json.loads(response.content)["emb"]
-            else:
+            elif response.status_code in [400, 401]:
                 # Unreachable Code
-                print(  # noqa: T201
-                    f"""Error: Received status code {response.status_code} from 
-                    embedding API"""
+                raise ValueError(f"HTTP error occurred: status_code: {response.status_code} \n ")
+            else:
+                raise HTTPError(
+                    f"HTTP error occurred: status_code: {response.status_code} \n "
                 )
-                return None
-
         except Exception as e:
             # Log the exception or handle it as needed
-            print(f"Exception occurred while trying to get embeddings: {str(e)}")  # noqa: T201
-            return None
+            raise HTTPError(f"Error happen: {str(e)}")
 
     def to_query_vec(self, texts: List[str]) -> List[List[float]]:
-        """Single text callable method"""
-        return [self._emb(text=text) for text in texts]
+        """
+        Multi text callable method
+
+        Args:
+            texts: The texts to embed.
+
+        Returns:
+            Embedding for the texts.
+
+        """
+        # embedding = embed_with_retry(self, )
+
+        return [embed_with_retry(self, text) for text in texts]
 
     def to_docs_vec(self, text: str) -> List[float]:
-        """Multi text callable method"""
-        return self._emb(text=text)
+        """
+        Single text callable method
+
+        Args:
+            text: The text to embed.
+
+        Returns:
+            Embedding for the text.
+        """
+        return embed_with_retry(self, text)
 
 
 

@@ -1,6 +1,6 @@
 from typing import Any
 
-from typing_extensions import Self
+# from typing_extensions import Self
 
 from pydantic import BaseModel, ValidationError, model_validator
 
@@ -24,7 +24,7 @@ class UserModel(BaseModel):
         return data
 
     @model_validator(mode='after')
-    def check_passwords_match(self) -> Self:
+    def check_passwords_match(self):
         print(f"self type：{type(self)}")
 
         print(f"self type：{self}")
