@@ -71,7 +71,7 @@ class TestSplitter(TestCase):
         docs_obj = splitter.create_documents(docs_text, [({"1": "2"}) for _ in range(len(docs_text)+1)])
         for item in docs_obj:
             print(">>>>>>>>>>>>>")
-            print(item)
+            print(len(item.page_content))
             print(">>>>>>>>>>>>>")
 
 
@@ -156,7 +156,8 @@ class TestSplitter(TestCase):
 
         from splitter import WordHeaderTextSplitter
         splitter = WordHeaderTextSplitter(
-            strip_headers=False,
+            strip_headers=True,
+            add_title_in_content=True
         )
         data = splitter.split_text(r"F:\编程项目\backend\RAGFusion\doc\福州市长乐区百户村智慧乡村项目-可研暨初设方案v3.5 15.40（20200312）(1).docx")
         #
@@ -170,7 +171,9 @@ class TestSplitter(TestCase):
             content = f.read()
 
         from splitter import TextHeaderSplitter
-        splitter = TextHeaderSplitter()
+        splitter = TextHeaderSplitter(
+            add_title_in_content=True
+        )
         data = splitter.split_text([content])
         #
         for item in data:
@@ -179,11 +182,13 @@ class TestSplitter(TestCase):
 
     def test_doc_ParentDocumentSplitter(self):
 
+        # TODO: 应该加入块合并功能
+
         with open(r"../../doc/新建文本文档.txt", "r", encoding="utf-8") as f:
             content = f.read()
 
         from splitter import ParentDocumentSplitter
-        from splitter import RecursiveCharacterTextSplitter
+        from splitter import RecursiveCharacterTextSplitter # 也可以使用Word切割
         from splitter import TextHeaderSplitter
         splitter = TextHeaderSplitter()
         docs = splitter.split_text([content])
@@ -194,7 +199,15 @@ class TestSplitter(TestCase):
                             child_splitter=child_splitter,
                             parent_splitter=parent_splitter,
                         )
-        p_splitter.split_documents(docs)
+        parent_document, child_document = p_splitter.split_documents(docs)
+        print(parent_document)
+        print(child_document)
+        for item in child_document:
+            print(len(item.page_content))
+            print(item.metadata)
+
+        return parent_document, child_document
+
 
     def test_NLTKTextSplitter(self):
         with open(r"../../doc/新建文本文档 (2).txt", "r", encoding="utf-8") as f:

@@ -4,21 +4,21 @@ from typing import List
 from core.runnables.sync import run_in_executor
 
 
-class Embedding(ABC):
-    """Embedding base model"""
+class Embeddings(ABC):
+    """Interface for embedding models."""
 
     @abstractmethod
-    def to_query_vec(self, texts: List[str]) -> List[List[float]]:
-        """embed query"""
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Embed search docs."""
 
     @abstractmethod
-    def to_docs_vec(self, text: str) -> List[float]:
-        """embed documents"""
+    def embed_query(self, text: str) -> List[float]:
+        """Embed query text."""
 
-    async def ato_query_vec(self, texts: str) -> List[float]:
-        """Asynchronous embed query to vec"""
-        return await run_in_executor(None, self.to_query_vec, texts)
+    async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Asynchronous Embed search docs."""
+        return await run_in_executor(None, self.embed_documents, texts)
 
-    async def ato_docs_vec(self, texts: str) -> List[float]:
-        """Asynchronous embed documents to vec"""
-        return await run_in_executor(None, self.to_docs_vec, texts)
+    async def aembed_query(self, text: str) -> List[float]:
+        """Asynchronous Embed query text."""
+        return await run_in_executor(None, self.embed_query, text)

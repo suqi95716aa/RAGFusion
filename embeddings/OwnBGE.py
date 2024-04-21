@@ -24,7 +24,7 @@ from tenacity import (
 from requests.exceptions import HTTPError
 from pydantic import model_validator, BaseModel
 
-from core.embeddings import Embedding
+from core.embeddings import Embeddings
 
 # FIX: 用解析文件方式代替
 TOKEN: str = "b8d1e618e3e973b4d7b67fe3467ef43c"
@@ -77,7 +77,7 @@ def embed_with_retry(embeddings: BGETextEmbedding, text) -> Any:
 
 
 # NOTE!! Without Public URL to use, just build myself
-class BGETextEmbedding(Embedding, BaseModel):
+class BGETextEmbedding(Embeddings, BaseModel):
 
     """
     Using BGE model to embed text.
@@ -124,7 +124,7 @@ class BGETextEmbedding(Embedding, BaseModel):
             # Log the exception or handle it as needed
             raise HTTPError(f"Error happen: {str(e)}")
 
-    def to_query_vec(self, texts: List[str]) -> List[List[float]]:
+    def embed_query(self, text: str) -> List[float]:
         """
         Multi text callable method
 
@@ -137,9 +137,9 @@ class BGETextEmbedding(Embedding, BaseModel):
         """
         # embedding = embed_with_retry(self, )
 
-        return [embed_with_retry(self, text) for text in texts]
+        return embed_with_retry(self, text)
 
-    def to_docs_vec(self, text: str) -> List[float]:
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
         """
         Single text callable method
 
@@ -149,7 +149,7 @@ class BGETextEmbedding(Embedding, BaseModel):
         Returns:
             Embedding for the text.
         """
-        return embed_with_retry(self, text)
+        return [embed_with_retry(self, text) for text in texts]
 
 
 

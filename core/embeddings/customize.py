@@ -1,12 +1,12 @@
 import hashlib
 from typing import List, Optional
 
-from core.embeddings.embeddings import Embedding
+from core.embeddings.embeddings import Embeddings
 
 from pydantic import BaseModel
 
 
-class TestEmbedding(Embedding, BaseModel):
+class TestEmbedding(Embeddings, BaseModel):
     """Test class for embedding"""
 
     # vector dims

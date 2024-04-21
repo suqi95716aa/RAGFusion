@@ -206,7 +206,8 @@ class HeaderExtractor:
             self,
             return_each_line: bool = False,
             strip_headers: bool = True,
-            splite_headers_re: str = r"^(\d+(\.\d+)*)[^,.。|;:'\"?!]*$"
+            splite_headers_re: str = r"^(\d+(\.\d+)*)[^,.。|;:'\"?!]*$",
+            add_title_in_content: bool = False,
     ):
         # Output line-by-line or aggregated into chunks w/ common headers
         self.return_each_line = return_each_line
@@ -214,6 +215,8 @@ class HeaderExtractor:
         self.strip_headers = strip_headers
         # Split headers by re, default like '1.2.3 Summary'
         self.splite_headers_re = splite_headers_re
+        # Save headers info in content for retrieve
+        self.add_title_in_content = add_title_in_content
 
     def _word_headers_extractor(
             self,
@@ -241,11 +244,16 @@ class HeaderExtractor:
         for paragraph in document_parts.paragraphs:
             paragraph_style = paragraph.style.name
             if paragraph_style in heading_counters:
-                if content:
-                    documents.append(Document(page_content=content,
-                                              metadata={k: v for k, v in copy.deepcopy(heading_counters).items() if
+                copy_headers = copy.deepcopy(heading_counters)
+                if content and self.add_title_in_content:
+                    documents.append(Document(page_content=f"当前的段落层级结构是：" + '<{}>'.format('>-<'.join(str(v) for v in copy_headers.values() if v is not None)) + "\n" + content,
+                                              metadata={k: v for k, v in copy_headers.items() if
                                                         v is not None}))
-                    content = ""
+                else:
+                    documents.append(Document(page_content=content,
+                                              metadata={k: v for k, v in copy_headers.items() if
+                                                        v is not None}))
+                content = ""
 
                 # Reset counters for lower level headings
                 heading_counters[paragraph_style] = paragraph.text
@@ -299,9 +307,12 @@ class HeaderExtractor:
 
             if re.match(self.splite_headers_re, line):
                 current_title = line.strip()
-                if content:
+                if content and self.add_title_in_content:
+                    documents.append(Document(page_content=f"{old_title}\n" + content, metadata={"header": old_title}))
+                elif content:
                     documents.append(Document(page_content=content, metadata={"header": old_title}))
-                    content = ""
+                content = ""
+
                 if not self.strip_headers:
                     documents.append(Document(page_content=current_title, metadata={"header": current_title}))
                 old_title = current_title
@@ -326,6 +337,7 @@ class WordHeaderTextSplitter(HeaderExtractor):
         Only support the type of docx file
 
         """
+        super().__init__(**kwargs)
 
     def split_text(self, file_path: str) -> List[Document]:
         """Split Word file path
