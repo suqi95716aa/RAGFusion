@@ -1,6 +1,6 @@
 
 
-# 示例安装命令
+# 安装命令
 
 `git clone https://github.com/suqi95716aa/RAGFusion.git`
 
