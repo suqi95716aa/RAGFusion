@@ -28,7 +28,7 @@ from core.embeddings import Embeddings
 
 # FIX: 用解析文件方式代替
 TOKEN: str = "b8d1e618e3e973b4d7b67fe3467ef43c"
-BGE_URL: str = "http://116.204.124.212:32222/api/model/bge_call_service/emb_query"
+BGE_URL: str = "http://116.204.124.212:3222/api/model/bge_call_service/emb_query"
 
 
 def _create_retry_decorator(embeddings: BGETextEmbedding) -> Callable[[Any], Any]:
